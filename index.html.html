@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Créer ta Boutique Shopify avec Claude AI — par Waris</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --surface2: #1c1c27;
+    --border: #2a2a3d;
+    --accent: #7c5cfc;
+    --accent2: #ff6b6b;
+    --accent3: #00d4aa;
+    --text: #e8e8f0;
+    --muted: #8888aa;
+    --heading: 'Syne', sans-serif;
+    --body: 'DM Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* ─── CREATOR BAR ─── */
+  .creator-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 50px;
+    padding: 8px 16px 8px 8px;
+    margin: 0 auto 28px;
+    width: fit-content;
+    max-width: 100%;
+  }
+  .creator-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #a78bfa);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--heading);
+    font-weight: 800;
+    font-size: 16px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .creator-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1px;
+  }
+  .creator-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .creator-tagline {
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .creator-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #010101;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 20px;
+    text-decoration: none;
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+    margin-left: auto;
+  }
+  .creator-link:hover { opacity: 0.8; }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: linear-gradient(135deg, #0a0a0f 0%, #1a1030 50%, #0a1520 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 64px 24px 56px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -120px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(124,92,252,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(124,92,252,0.15);
+    border: 1px solid rgba(124,92,252,0.35);
+    color: #b8a4ff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: var(--heading);
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff 30%, #b8a4ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    color: var(--muted);
+    font-size: 16px;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  /* ─── NAV STEPS ─── */
+  .steps-nav {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 16px;
+    scrollbar-width: none;
+  }
+  .steps-nav::-webkit-scrollbar { display: none; }
+  .step-tab {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-family: var(--body);
+  }
+  .step-tab:hover { color: var(--text); }
+  .step-tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  .step-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-tab.active .step-num {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  /* ─── CONTENT ─── */
+  .container { max-width: 820px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  .panel { display: none; }
+  .panel.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ─── SECTION HEADERS ─── */
+  .section-title {
+    font-family: var(--heading);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #fff;
+  }
+  .section-sub { color: var(--muted); margin-bottom: 28px; font-size: 14px; }
+
+  /* ─── CARDS ─── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-family: var(--heading);
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .tag-step { background: rgba(124,92,252,0.15); color: #b8a4ff; }
+  .tag-tip { background: rgba(0,212,170,0.12); color: #00d4aa; }
+  .tag-warn { background: rgba(255,107,107,0.12); color: #ff8888; }
+
+  /* ─── PROMPT BOX ─── */
+  .prompt-box {
+    background: #0d0d16;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 18px 20px;
+    margin: 14px 0;
+    position: relative;
+  }
+  .prompt-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .prompt-text {
+    font-size: 13px;
+    line-height: 1.75;
+    color: #ccc;
+    font-family: 'DM Mono', 'Courier New', monospace;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .prompt-text .var { color: #7c5cfc; font-weight: 600; }
+  .prompt-text .key { color: #00d4aa; }
+  .copy-btn {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: var(--body);
+    transition: all 0.2s;
+    letter-spacing: 0.04em;
+  }
+  .copy-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .copy-btn.copied { background: var(--accent3); color: #000; border-color: var(--accent3); }
+
+  /* ─── FLOW ─── */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 20px 0;
+  }
+  .flow-item {
+    display: flex;
+    gap: 16px;
+    position: relative;
+    padding-bottom: 24px;
+  }
+  .flow-item:last-child { padding-bottom: 0; }
+  .flow-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 36px;
+  }
+  .flow-dot {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    font-size: 14px;
+    color: #fff;
+    flex-shrink: 0;
+    font-family: var(--heading);
+    z-index: 1;
+  }
+  .flow-dot.green { background: var(--accent3); color: #000; }
+  .flow-dot.red { background: var(--accent2); }
+  .flow-line {
+    width: 2px;
+    flex: 1;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    margin-top: 4px;
+    min-height: 20px;
+  }
+  .flow-content { padding-top: 6px; flex: 1; }
+  .flow-content h4 {
+    font-family: var(--heading);
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #fff;
+  }
+  .flow-content p { color: var(--muted); font-size: 13px; }
+
+  /* ─── CHECKLIST ─── */
+  .checklist { list-style: none; margin: 14px 0; }
+  .checklist li {
+    display: flex;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    color: #ccc;
+    align-items: flex-start;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-icon { flex-shrink: 0; color: var(--accent3); font-size: 15px; margin-top: 1px; }
+
+  /* ─── HIGHLIGHT BOX ─── */
+  .highlight {
+    background: linear-gradient(135deg, rgba(124,92,252,0.08), rgba(0,212,170,0.05));
+    border: 1px solid rgba(124,92,252,0.2);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 20px 0;
+    font-size: 14px;
+    color: #ccc;
+  }
+  .highlight strong { color: #fff; }
+
+  /* ─── CORRECTIONS TABLE ─── */
+  .fix-list { list-style: none; }
+  .fix-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .fix-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+  .fix-body h4 { font-weight: 700; font-size: 14px; color: #fff; margin-bottom: 4px; }
+  .fix-body p { font-size: 13px; color: var(--muted); }
+  .fix-body code {
+    display: inline-block;
+    background: #0d0d16;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 12px;
+    color: #b8a4ff;
+    font-family: monospace;
+    margin-top: 6px;
+  }
+
+  /* ─── NAV BUTTONS ─── */
+  .nav-btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    gap: 12px;
+  }
+  .btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: var(--body);
+    border: none;
+  }
+  .btn-ghost {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .btn-ghost:hover { color: var(--text); border-color: var(--accent); }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(124,92,252,0.35);
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 28px rgba(124,92,252,0.45); }
+  .btn:disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
+
+  /* ─── DIVIDER ─── */
+  .divider { height: 1px; background: var(--border); margin: 24px 0; }
+
+  /* ─── INLINE CODE ─── */
+  code { background: #1c1c2e; padding: 1px 6px; border-radius: 4px; font-size: 12px; color: #b8a4ff; }
+
+  /* ─── TIPS GRID ─── */
+  .tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+  @media (max-width: 500px) { .tips-grid { grid-template-columns: 1fr; } }
+  .tip-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    font-size: 13px;
+    color: #ccc;
+  }
+  .tip-card .tip-emoji { font-size: 24px; margin-bottom: 8px; display: block; }
+  .tip-card strong { display: block; color: #fff; font-size: 14px; margin-bottom: 4px; }
+
+  /* ─── DELEGATION BOX ─── */
+  .delegation-box {
+    margin-top: 32px;
+    background: linear-gradient(135deg, rgba(124,92,252,0.12), rgba(0,212,170,0.07));
+    border: 1px solid rgba(124,92,252,0.25);
+    border-radius: 16px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .delegation-box::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(ellipse, rgba(124,92,252,0.15), transparent 70%);
+    pointer-events: none;
+  }
+  .delegation-inner {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .delegation-left { flex: 1; }
+  .delegation-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent3);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .delegation-box h3 {
+    font-family: var(--heading);
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  .delegation-box p {
+    font-size: 14px;
+    color: #bbb;
+    margin-bottom: 18px;
+    max-width: 420px;
+  }
+  .delegation-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn-wa {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: #25D366;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-wa:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(37,211,102,0.35); }
+  .btn-tiktok {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: #010101;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 1px solid #333;
+    transition: all 0.2s;
+  }
+  .btn-tiktok:hover { border-color: #666; }
+  .delegation-avatar {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #a78bfa);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--heading);
+    font-weight: 800;
+    font-size: 28px;
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 4px rgba(124,92,252,0.2);
+  }
+  @media (max-width: 480px) {
+    .delegation-avatar { display: none; }
+    .delegation-inner { flex-direction: column; }
+  }
+
+  /* ─── FOOTER ─── */
+  .site-footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 28px 24px;
+  }
+  .footer-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .footer-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #a78bfa);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--heading);
+    font-weight: 800;
+    font-size: 18px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .footer-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+  .footer-desc { font-size: 12px; color: var(--muted); max-width: 260px; }
+  .footer-links { display: flex; gap: 8px; flex-wrap: wrap; }
+  .footer-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 7px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .footer-btn-tiktok { background: #111; color: #fff; border: 1px solid #333; }
+  .footer-btn-tiktok:hover { border-color: #666; }
+  .footer-btn-wa { background: rgba(37,211,102,0.12); color: #25D366; border: 1px solid rgba(37,211,102,0.25); }
+  .footer-btn-wa:hover { background: rgba(37,211,102,0.2); }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="creator-bar">
+    <span class="creator-avatar">W</span>
+    <div class="creator-info">
+      <span class="creator-name">Partagé par Waris</span>
+      <span class="creator-tagline">Je crée des boutiques Shopify avec Claude AI — et je documente tout.</span>
+    </div>
+    <a onclick="window.open('https://www.tiktok.com/@warisadelani','_blank')" style="cursor:pointer;" class="creator-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
+      TikTok
+    </a>
+  </div>
+  <div class="badge">✦ Process Partagé</div>
+  <h1>Crée ta Boutique Shopify<br>avec Claude AI</h1>
+  <p>Voilà exactement comment je crée des boutiques Shopify complètes. Aucune compétence technique — juste ce process.</p>
+</div>
+
+<nav class="steps-nav">
+  <button class="step-tab active" onclick="goTo(0)">
+    <span class="step-num">1</span> Vue d'ensemble
+  </button>
+  <button class="step-tab" onclick="goTo(1)">
+    <span class="step-num">2</span> Page Produit HTML
+  </button>
+  <button class="step-tab" onclick="goTo(2)">
+    <span class="step-num">3</span> Valider le Design
+  </button>
+  <button class="step-tab" onclick="goTo(3)">
+    <span class="step-num">4</span> Boutique Shopify
+  </button>
+  <button class="step-tab" onclick="goTo(4)">
+    <span class="step-num">5</span> Corriger les Bugs
+  </button>
+</nav>
+
+<div class="container">
+
+  <!-- ─── PANEL 0 : Vue d'ensemble ─── -->
+  <div class="panel active" id="panel-0">
+    <div class="section-title">Le process en 4 étapes</div>
+    <p class="section-sub">De zéro à boutique Shopify en ligne — sans toucher au code.</p>
+
+    <div class="flow">
+      <div class="flow-item">
+        <div class="flow-left">
+          <div class="flow-dot">1</div>
+          <div class="flow-line"></div>
+        </div>
+        <div class="flow-content">
+          <h4>Génère une page produit HTML</h4>
+          <p>Tu upload une image + description produit. Claude te génère une landing page HTML conversion-optimisée à valider dans ton navigateur avant de toucher à Shopify.</p>
+        </div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-left">
+          <div class="flow-dot">2</div>
+          <div class="flow-line"></div>
+        </div>
+        <div class="flow-content">
+          <h4>Tu valides le design</h4>
+          <p>Tu ouvres le fichier HTML dans Chrome. Tu demandes des ajustements jusqu'à ce que le rendu te plaise. Couleurs, sections, textes — tout se modifie en quelques secondes.</p>
+        </div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-left">
+          <div class="flow-dot green">3</div>
+          <div class="flow-line" style="background: linear-gradient(to bottom, var(--accent3), transparent);"></div>
+        </div>
+        <div class="flow-content">
+          <h4>Conversion en boutique Shopify complète</h4>
+          <p>Une fois le design validé, Claude transforme le HTML en boutique Shopify complète — page d'accueil + page produit, entièrement personnalisables depuis le customizer Shopify. Zéro code à toucher.</p>
+        </div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-left">
+          <div class="flow-dot red">4</div>
+        </div>
+        <div class="flow-content">
+          <h4>Installation et corrections</h4>
+          <p>Tu installes le ZIP sur Shopify. Si tu repères un bug visuellement, une capture d'écran à Claude et il corrige les fichiers concernés.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <strong>Ce dont tu as besoin :</strong> Une image de ton produit + quelques phrases de description. Claude s'occupe du reste — design, code, architecture complète de ta boutique.
+    </div>
+
+    <div class="tips-grid">
+      <div class="tip-card">
+        <span class="tip-emoji">🖼️</span>
+        <strong>Prépare ton image produit</strong>
+        PNG ou JPG, fond blanc de préférence. Plus l'image est propre, meilleur le résultat.
+      </div>
+      <div class="tip-card">
+        <span class="tip-emoji">📝</span>
+        <strong>Note tes infos clés</strong>
+        Nom du produit, bénéfice principal, prix, cible client, couleurs de ta marque si tu en as.
+      </div>
+      <div class="tip-card">
+        <span class="tip-emoji">🌐</span>
+        <strong>Claude.ai suffit</strong>
+        Fonctionne avec Claude.ai gratuit ou Pro. Sonnet 4 recommandé pour les meilleurs résultats.
+      </div>
+      <div class="tip-card">
+        <span class="tip-emoji">⏱️</span>
+        <strong>Temps estimé</strong>
+        Première version : 5 min. Ajustements design : 15-30 min. Boutique installée : 10 min.
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn btn-ghost" disabled>← Précédent</button>
+      <button class="btn btn-primary" onclick="goTo(1)">Commencer → Étape 1</button>
+    </div>
+  </div>
+
+  <!-- ─── PANEL 1 : Prompt HTML ─── -->
+  <div class="panel" id="panel-1">
+    <div class="section-title">Étape 1 — Générer la Page Produit HTML</div>
+    <p class="section-sub">Upload ton image produit dans Claude, puis utilise ce prompt.</p>
+
+    <div class="card">
+      <div class="card-title"><span class="tag tag-step">Avant de commencer</span></div>
+      <ul class="checklist">
+        <li><span class="check-icon">✓</span> Ton image produit est prête (PNG/JPG)</li>
+        <li><span class="check-icon">✓</span> Tu as le nom du produit et son bénéfice principal</li>
+        <li><span class="check-icon">✓</span> Tu connais ta cible client (homme/femme, âge, problème résolu)</li>
+        <li><span class="check-icon">✓</span> Tu as une idée des couleurs souhaitées (ou laisse Claude décider)</li>
+      </ul>
+    </div>
+
+    <div class="prompt-box">
+      <div class="prompt-label">📋 Prompt à copier — Page Produit HTML</div>
+      <button class="copy-btn" onclick="copyPrompt(this, 'prompt-1')">Copier</button>
+      <div class="prompt-text" id="prompt-1">Tu vas créer une page produit HTML complète et optimisée pour la conversion.
+
+<span class="key">PRODUIT :</span>
+- Nom : <span class="var">[NOM DU PRODUIT]</span>
+- Description : <span class="var">[DÉCRIS TON PRODUIT EN 2-3 PHRASES]</span>
+- Prix : <span class="var">[PRIX]</span> (prix barré si promo : <span class="var">[ANCIEN PRIX]</span>)
+- Cible client : <span class="var">[QUI ACHÈTE CE PRODUIT ET QUEL PROBLÈME ÇA RÉSOUT]</span>
+- Couleurs souhaitées : <span class="var">[EX: bleu marine et or / laisse Claude décider]</span>
+
+<span class="key">SECTIONS À INCLURE (dans cet ordre) :</span>
+1. Hero — image produit + titre accrocheur + prix + bouton "Commander maintenant"
+2. Barre de réassurance — livraison rapide, satisfaction garantie, paiement sécurisé
+3. Bénéfices produit — 3 points clés avec icônes
+4. Comment ça marche — 3 étapes simples
+5. Témoignages clients — 3 avis avec étoiles
+6. Garantie — section de réassurance (ex: 30 jours satisfait ou remboursé)
+7. FAQ — 4 questions fréquentes
+8. CTA final — bouton d'achat avec urgence
+
+<span class="key">EXIGENCES TECHNIQUES :</span>
+- Un seul fichier HTML complet (CSS inclus dans &lt;style&gt;, JS minimal)
+- Design mobile-first, moderne et professionnel
+- Bouton CTA très visible, couleur qui contraste
+- Police propre et lisible
+- Sections alternées clair/foncé pour aérer
+- Pas d'images externes sauf l'image produit que je t'ai uploadée
+
+<span class="key">IMPORTANT :</span>
+Génère un fichier HTML complet que je puisse ouvrir directement dans mon navigateur pour voir le rendu. Place l'image produit uploadée comme image principale dans le hero et la section produit.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="tag tag-tip">💡 Astuce</span> Personnalise les variables en violet</div>
+      <p style="font-size:13px; color:var(--muted);">Remplace chaque <span style="color:#7c5cfc; font-weight:600;">[variable entre crochets]</span> par tes vraies informations avant d'envoyer le prompt. Plus tu es précis, meilleur sera le résultat.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="tag tag-warn">⚠️ Attention</span> Upload l'image EN MÊME TEMPS</div>
+      <p style="font-size:13px; color:var(--muted);">Dans Claude.ai, clique sur le 📎 pour joindre ton image produit <strong style="color:#fff;">avant d'envoyer</strong> le prompt. Claude l'intégrera directement dans le design HTML.</p>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn btn-ghost" onclick="goTo(0)">← Précédent</button>
+      <button class="btn btn-primary" onclick="goTo(2)">Suivant → Valider le Design</button>
+    </div>
+  </div>
+
+  <!-- ─── PANEL 2 : Valider ─── -->
+  <div class="panel" id="panel-2">
+    <div class="section-title">Étape 2 — Valider et Affiner le Design</div>
+    <p class="section-sub">Comment regarder le résultat et demander des ajustements.</p>
+
+    <div class="card">
+      <div class="card-title">🔍 Comment voir le rendu HTML</div>
+      <div class="flow" style="margin:12px 0 0 0;">
+        <div class="flow-item">
+          <div class="flow-left">
+            <div class="flow-dot" style="width:28px;height:28px;font-size:12px;">A</div>
+            <div class="flow-line"></div>
+          </div>
+          <div class="flow-content">
+            <h4>Méthode 1 — Copier dans un fichier</h4>
+            <p>Copie le code HTML généré → crée un fichier <code>index.html</code> → double-clique pour l'ouvrir dans Chrome.</p>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-left">
+            <div class="flow-dot" style="width:28px;height:28px;font-size:12px;">B</div>
+          </div>
+          <div class="flow-content">
+            <h4>Méthode 2 — CodePen ou JSFiddle</h4>
+            <p>Va sur <code>codepen.io</code> → colle le HTML dans l'onglet HTML → preview instantané sans installation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section-title" style="font-size:17px;">Prompts d'ajustement</div>
+    <p style="color:var(--muted); font-size:13px; margin-bottom:16px;">Utilise ces formulations pour modifier le design :</p>
+
+    <div class="prompt-box">
+      <div class="prompt-label">🎨 Changer les couleurs</div>
+      <button class="copy-btn" onclick="copyPrompt(this, 'prompt-color')">Copier</button>
+      <div class="prompt-text" id="prompt-color">Modifie le thème de couleurs : couleur principale <span class="var">[ex: #D4A017 or]</span>, couleur secondaire <span class="var">[ex: #1a1a2e bleu nuit]</span>. Garde le reste du design identique, mets à jour uniquement les couleurs dans tout le HTML.</div>
+    </div>
+
+    <div class="prompt-box">
+      <div class="prompt-label">📐 Modifier une section</div>
+      <button class="copy-btn" onclick="copyPrompt(this, 'prompt-section')">Copier</button>
+      <div class="prompt-text" id="prompt-section">Dans le fichier HTML, modifie la section <span class="var">[NOM DE LA SECTION, ex: "témoignages"]</span> : <span class="var">[DÉCRIS CE QUE TU VEUX CHANGER]</span>. Renvoie-moi le fichier HTML complet mis à jour.</div>
+    </div>
+
+    <div class="prompt-box">
+      <div class="prompt-label">✍️ Changer les textes</div>
+      <button class="copy-btn" onclick="copyPrompt(this, 'prompt-text')">Copier</button>
+      <div class="prompt-text" id="prompt-text">Améliore les textes de la page pour mieux convertir : le titre principal doit être plus accrocheur, les bénéfices plus percutants, et le CTA plus urgent. Voici mon angle marketing : <span class="var">[TON ANGLE / ARGUMENT PRINCIPAL]</span>. Garde le design, change uniquement les textes.</div>
+    </div>
+
+    <div class="prompt-box">
+      <div class="prompt-label">📱 Vérifier le mobile</div>
+      <button class="copy-btn" onclick="copyPrompt(this, 'prompt-mobile')">Copier</button>
+      <div class="prompt-text" id="prompt-mobile">Optimise le fichier HTML pour mobile : vérifie que les boutons font au minimum 44px de hauteur, que les textes sont lisibles (min 16px), que les images s'adaptent bien, et que le bouton CTA est bien visible sans scroller sur un écran 375px de large. Renvoie le HTML complet corrigé.</div>
+    </div>
+
+    <div class="highlight">
+      <strong>💡 Conseil :</strong> Dis toujours à Claude de te renvoyer le <strong>fichier HTML complet</strong> après chaque modification. Ça évite d'avoir des morceaux de code à assembler manuellement.
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn btn-ghost" onclick="goTo(1)">← Précédent</button>
+      <button class="btn btn-primary" onclick="goTo(3)">Suivant → Convertir en Thème</button>
+    </div>
+  </div>
+
+  <!-- ─── PANEL 3 : Thème Shopify ─── -->
+  <div class="panel" id="panel-3">
+    <div class="section-title">Étape 3 — Générer ta Boutique Shopify Complète</div>
+    <p class="section-sub">Une fois le HTML validé, une seule instruction pour obtenir ta boutique en ZIP.</p>
+
+    <div class="card">
+      <div class="card-title"><span class="tag tag-tip">✅ Pré-requis</span></div>
+      <ul class="checklist">
+        <li><span class="check-icon">✓</span> Le design HTML te plaît</li>
+        <li><span class="check-icon">✓</span> Les couleurs, textes et sections sont finalisés</li>
+        <li><span class="check-icon">✓</span> Tu as validé le rendu mobile (redimensionne le navigateur)</li>
+      </ul>
+    </div>
+
+    <div class="prompt-box">
+      <div class="prompt-label">🚀 Prompt — Génération de la boutique Shopify complète</div>
+      <button class="copy-btn" onclick="copyPrompt(this, 'prompt-shopify')">Copier</button>
+      <div class="prompt-text" id="prompt-shopify">Parfait, le design me convient. Maintenant transforme ce design HTML en une boutique Shopify OS 2.0 complète, prête à être uploadée en ZIP.
+
+<span class="key">EXIGENCES DE LA BOUTIQUE :</span>
+
+1. <span class="key">Architecture OS 2.0</span> — JSON templates, sections Liquid avec schemas, config/settings_schema.json
+
+2. <span class="key">Page d'accueil</span> (templates/index.json) avec :
+   - Hero produit avec image, titre accrocheur, prix, bouton d'achat
+   - Section bénéfices / arguments clés
+   - Témoignages clients
+   - CTA final
+
+3. <span class="key">Page produit</span> (templates/product.json) avec :
+   - Galerie image + infos produit (titre, prix, variantes, bouton ATC)
+   - Sections de conversion (bénéfices, social proof, FAQ)
+   - Sticky buy bar sur mobile
+
+4. <span class="key">Tout personnalisable depuis Shopify</span> — TOUT doit être modifiable depuis Boutique en ligne > Personnaliser :
+   - Couleurs (principale, secondaire, fond, texte)
+   - Polices
+   - Textes de chaque section
+   - Logo
+
+5. <span class="key">Technique</span> :
+   - Aucune couleur codée en dur dans le CSS (tout via CSS variables générées depuis settings)
+   - Images via srcset et loading="lazy"
+   - Mobile-first, bouton CTA visible au-dessus de la ligne de flottaison
+   - Fichier locales/fr.default.json inclus
+   - README.md avec instructions d'installation
+
+<span class="key">OUTPUT :</span> Génère tous les fichiers et crée un ZIP téléchargeable nommé <span class="var">boutique-[nom-produit].zip</span></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section-title" style="font-size:17px;">Installer ta boutique sur Shopify</div>
+
+    <div class="flow" style="margin-top:16px;">
+      <div class="flow-item">
+        <div class="flow-left">
+          <div class="flow-dot" style="background:var(--accent3); color:#000;">1</div>
+          <div class="flow-line" style="background: linear-gradient(to bottom, var(--accent3), transparent);"></div>
+        </div>
+        <div class="flow-content">
+          <h4>Télécharge le ZIP</h4>
+          <p>Claude génère un lien de téléchargement. Sauvegarde le fichier <code>.zip</code> sur ton ordinateur.</p>
+        </div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-left">
+          <div class="flow-dot" style="background:var(--accent3); color:#000;">2</div>
+          <div class="flow-line" style="background: linear-gradient(to bottom, var(--accent3), transparent);"></div>
+        </div>
+        <div class="flow-content">
+          <h4>Upload dans Shopify</h4>
+          <p>Va dans <strong style="color:#fff;">Boutique en ligne → Thèmes → Ajouter un thème → Charger un fichier ZIP</strong>. Sélectionne ton fichier.</p>
+        </div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-left">
+          <div class="flow-dot" style="background:var(--accent3); color:#000;">3</div>
+          <div class="flow-line" style="background: linear-gradient(to bottom, var(--accent3), transparent);"></div>
+        </div>
+        <div class="flow-content">
+          <h4>Prévisualise avant de publier</h4>
+          <p>Clique sur <strong style="color:#fff;">"Prévisualiser"</strong> pour voir le rendu. Ne publie pas encore — vérifie d'abord tout.</p>
+        </div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-left">
+          <div class="flow-dot" style="background:var(--accent3); color:#000;">4</div>
+        </div>
+        <div class="flow-content">
+          <h4>Personnalise via le customizer</h4>
+          <p>Clique sur <strong style="color:#fff;">"Personnaliser"</strong> pour ajuster couleurs, textes et logo directement dans l'interface Shopify — sans code.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn btn-ghost" onclick="goTo(2)">← Précédent</button>
+      <button class="btn btn-primary" onclick="goTo(4)">Suivant → Corriger les Bugs</button>
+    </div>
+  </div>
+
+  <!-- ─── PANEL 4 : Corrections ─── -->
+  <div class="panel" id="panel-4">
+    <div class="section-title">Étape 4 — Corriger les Problèmes</div>
+    <p class="section-sub">Les bugs les plus courants et comment les corriger avec Claude.</p>
+
+    <div class="highlight">
+      <strong>Méthode universelle :</strong> Fais une capture d'écran du problème → upload dans Claude → dis ce qui ne va pas → il corrige le fichier concerné.
+    </div>
+
+    <div class="divider"></div>
+
+    <p style="font-size:14px; color:var(--muted); margin-bottom:16px;">Problèmes fréquents et prompts de correction :</p>
+
+    <ul class="fix-list">
+      <li class="fix-item">
+        <div class="fix-icon">🎨</div>
+        <div class="fix-body">
+          <h4>Les couleurs ne changent pas dans le customizer</h4>
+          <p>Les couleurs sont codées en dur dans le CSS au lieu d'utiliser les settings Shopify.</p>
+          <div class="prompt-box" style="margin-top:10px;">
+            <div class="prompt-label">Prompt de correction</div>
+            <button class="copy-btn" onclick="copyPrompt(this, 'fix-1')">Copier</button>
+            <div class="prompt-text" id="fix-1">Dans ma boutique Shopify, les couleurs ne se mettent pas à jour quand je les change dans le customizer. Corrige le fichier <span class="var">assets/theme.css</span> et <span class="var">layout/theme.liquid</span> pour que TOUTES les couleurs soient définies via des CSS variables générées depuis <span class="var">{{ settings.colors_* }}</span> dans theme.liquid. Aucune valeur hex ne doit apparaître dans theme.css.</div>
+          </div>
+        </div>
+      </li>
+
+      <li class="fix-item">
+        <div class="fix-icon">📱</div>
+        <div class="fix-body">
+          <h4>Le design est cassé sur mobile</h4>
+          <p>Textes trop grands, images débordantes, boutons trop petits.</p>
+          <div class="prompt-box" style="margin-top:10px;">
+            <div class="prompt-label">Prompt de correction</div>
+            <button class="copy-btn" onclick="copyPrompt(this, 'fix-2')">Copier</button>
+            <div class="prompt-text" id="fix-2">Voici une capture du rendu mobile de mon thème (joint la capture). La section <span class="var">[NOM DE LA SECTION]</span> est cassée : <span class="var">[DÉCRIS LE PROBLÈME]</span>. Corrige le CSS dans <span class="var">assets/theme.css</span> et si nécessaire le HTML dans <span class="var">sections/[fichier].liquid</span>. Renvoie uniquement les fichiers modifiés.</div>
+          </div>
+        </div>
+      </li>
+
+      <li class="fix-item">
+        <div class="fix-icon">🛒</div>
+        <div class="fix-body">
+          <h4>Le bouton "Ajouter au panier" ne fonctionne pas</h4>
+          <p>Le formulaire produit ou l'ID de variant est mal configuré.</p>
+          <div class="prompt-box" style="margin-top:10px;">
+            <div class="prompt-label">Prompt de correction</div>
+            <button class="copy-btn" onclick="copyPrompt(this, 'fix-3')">Copier</button>
+            <div class="prompt-text" id="fix-3">Le bouton "Ajouter au panier" de ma page produit ne fonctionne pas. Vérifie que le formulaire dans <span class="var">sections/product-hero.liquid</span> utilise bien la syntaxe Shopify correcte : <span class="var">{% form 'product', product %}</span> avec <span class="var">&lt;input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}"&gt;</span> et un <span class="var">&lt;button type="submit" name="add"&gt;</span>. Corrige et renvoie le fichier.</div>
+          </div>
+        </div>
+      </li>
+
+      <li class="fix-item">
+        <div class="fix-icon">🖼️</div>
+        <div class="fix-body">
+          <h4>Les images ne s'affichent pas</h4>
+          <p>Chemins d'images incorrects ou syntaxe Liquid manquante.</p>
+          <div class="prompt-box" style="margin-top:10px;">
+            <div class="prompt-label">Prompt de correction</div>
+            <button class="copy-btn" onclick="copyPrompt(this, 'fix-4')">Copier</button>
+            <div class="prompt-text" id="fix-4">Les images de mon thème ne s'affichent pas. Dans les fichiers Liquid concernés, remplace tous les chemins d'images statiques par la syntaxe Shopify correcte : <span class="var">{{ product.featured_image | image_url: width: 800 | image_tag: loading: 'lazy' }}</span> pour les images produit, et <span class="var">{{ section.settings.image | image_url: width: 1200 | image_tag }}</span> pour les images de sections. Corrige tous les fichiers concernés.</div>
+          </div>
+        </div>
+      </li>
+
+      <li class="fix-item">
+        <div class="fix-icon">📝</div>
+        <div class="fix-body">
+          <h4>Les textes ne sont pas modifiables dans le customizer</h4>
+          <p>Les textes sont codés en dur dans le Liquid au lieu d'être dans les schemas.</p>
+          <div class="prompt-box" style="margin-top:10px;">
+            <div class="prompt-label">Prompt de correction</div>
+            <button class="copy-btn" onclick="copyPrompt(this, 'fix-5')">Copier</button>
+            <div class="prompt-text" id="fix-5">Dans la section <span class="var">[NOM DE LA SECTION]</span>, les textes sont codés en dur et je ne peux pas les modifier depuis le customizer Shopify. Mets à jour le fichier <span class="var">sections/[fichier].liquid</span> pour que tous les textes (titres, descriptions, labels de boutons) soient des settings modifiables dans le schema JSON de la section. Chaque texte doit avoir un <span class="var">"type": "text"</span> ou <span class="var">"richtext"</span> dans le schema avec une valeur par défaut.</div>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <div class="divider"></div>
+
+    <div class="card">
+      <div class="card-title">🎯 Prompt universel — Bug avec capture d'écran</div>
+      <div class="prompt-box" style="margin-top:12px;">
+        <div class="prompt-label">À utiliser pour n'importe quel bug visuel</div>
+        <button class="copy-btn" onclick="copyPrompt(this, 'fix-universal')">Copier</button>
+        <div class="prompt-text" id="fix-universal">Voici une capture d'écran d'un problème sur ma boutique Shopify (image jointe).
+
+Problème observé : <span class="var">[DÉCRIS CE QUI NE VA PAS EN 1-2 PHRASES]</span>
+Section concernée : <span class="var">[NOM DE LA SECTION OU PAGE]</span>
+Navigateur / appareil : <span class="var">[ex: Chrome desktop / iPhone Safari]</span>
+
+Identifie le fichier à corriger (section Liquid, CSS ou template JSON), explique brièvement la cause, et renvoie le fichier corrigé complet.</div>
+      </div>
+    </div>
+
+    <div class="highlight" style="margin-top:24px;">
+      <strong>🏁 Ta boutique est en ligne !</strong> Les bugs sont corrigés. N'oublie pas de <strong>personnaliser le contenu</strong> (vraies photos, vrais textes, vrai logo) depuis le customizer Shopify avant de publier.
+    </div>
+
+    <!-- DÉLÉGUER -->
+    <div class="delegation-box">
+      <div class="delegation-inner">
+        <div class="delegation-left">
+          <span class="delegation-tag">Tu préfères déléguer ?</span>
+          <h3>Je crée ta boutique complète.</h3>
+          <p>Tu me donnes ton produit — je m'occupe de tout : boutique Shopify complète, page d'accueil, page produit optimisée pour la conversion, installation et corrections incluses.</p>
+          <div class="delegation-btns">
+            <a onclick="window.open('https://wa.me/2250100502080?text=Bonjour%20Waris%2C%20je%20suis%20int%C3%A9ress%C3%A9(e)%20par%20la%20cr%C3%A9ation%20de%20ma%20boutique%20Shopify','_blank')" style="cursor:pointer;" class="btn-wa">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              Me contacter sur WhatsApp
+            </a>
+            <a onclick="window.open('https://www.tiktok.com/@warisadelani','_blank')" style="cursor:pointer;" class="btn-tiktok">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
+              Suivre sur TikTok
+            </a>
+          </div>
+        </div>
+        <div class="delegation-avatar">W</div>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn btn-ghost" onclick="goTo(3)">← Précédent</button>
+      <button class="btn btn-primary" onclick="goTo(0)">↺ Recommencer</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-left">
+      <span class="footer-avatar">W</span>
+      <div>
+        <div class="footer-name">Waris</div>
+        <div class="footer-desc">Je crée des boutiques Shopify complètes avec Claude AI — et je partage tout mon process.</div>
+      </div>
+    </div>
+    <div class="footer-links">
+      <a onclick="window.open('https://www.tiktok.com/@warisadelani','_blank')" style="cursor:pointer;" class="footer-btn footer-btn-tiktok">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
+        TikTok
+      </a>
+      <a onclick="window.open('https://wa.me/2250100502080?text=Bonjour%20Waris%2C%20je%20suis%20int%C3%A9ress%C3%A9(e)%20par%20la%20cr%C3%A9ation%20de%20ma%20boutique%20Shopify','_blank')" style="cursor:pointer;" class="footer-btn footer-btn-wa">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        +225 01 00 50 20 80
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  let current = 0;
+  const panels = document.querySelectorAll('.panel');
+  const tabs = document.querySelectorAll('.step-tab');
+
+  function goTo(n) {
+    panels[current].classList.remove('active');
+    tabs[current].classList.remove('active');
+    current = n;
+    panels[current].classList.add('active');
+    tabs[current].classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function copyPrompt(btn, id) {
+    const el = document.getElementById(id);
+    const text = el.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '✓ Copié';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copier';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+</script>
+</body>
+</html>
