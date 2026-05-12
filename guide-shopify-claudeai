@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crée ta Boutique Shopify avec Claude AI — Guide de Waris</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --purple: #7C3AED;
+    --purple-light: #A78BFA;
+    --purple-dark: #4C1D95;
+    --purple-bg: #0D0620;
+    --purple-card: #160A2E;
+    --purple-border: rgba(124, 58, 237, 0.3);
+    --green: #10B981;
+    --green-light: #6EE7B7;
+    --gold: #F59E0B;
+    --white: #FFFFFF;
+    --gray-100: #F3F0FF;
+    --gray-400: #A89FC8;
+    --gray-600: #6B5E8A;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'Figtree', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--purple-bg); color: var(--white); line-height: 1.6; overflow-x: hidden; }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.4;
+  }
+  .container { max-width: 780px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+
+  /* COUNTDOWN BANNER */
+  .countdown-banner {
+    background: linear-gradient(135deg, rgba(245,158,11,0.18), rgba(245,158,11,0.07));
+    border-bottom: 1px solid rgba(245,158,11,0.3);
+    padding: 9px 20px;
+    text-align: center;
+    position: relative; z-index: 50;
+  }
+  .cb-inner { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .cb-text { font-size: 13px; color: #FCD34D; font-weight: 500; }
+  .cb-text strong { font-weight: 700; }
+  .countdown-timer { display: flex; gap: 4px; align-items: center; }
+  .timer-block {
+    background: rgba(245,158,11,0.2); border: 1px solid rgba(245,158,11,0.4);
+    border-radius: 5px; padding: 2px 7px;
+    font-family: var(--font-display); font-size: 13px; font-weight: 700; color: #FCD34D;
+    min-width: 30px; text-align: center;
+  }
+  .timer-sep { color: #FCD34D; font-weight: 700; font-size: 13px; }
+
+  /* STICKY BAR */
+  .sticky-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(13, 6, 32, 0.97);
+    backdrop-filter: blur(14px);
+    border-top: 1px solid var(--purple-border);
+    padding: 10px 20px; z-index: 100;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    transform: translateY(100%); transition: transform 0.4s ease;
+  }
+  .sticky-bar.visible { transform: translateY(0); }
+  .sb-info { display: flex; align-items: center; gap: 10px; }
+  .sb-price { font-size: 13px; color: var(--gray-400); white-space: nowrap; }
+  .sb-price strong { color: var(--white); }
+  .sb-countdown { font-size: 12px; color: #FCD34D; white-space: nowrap; }
+
+  /* BUTTONS */
+  .btn-primary {
+    display: inline-block; background: var(--purple); color: var(--white);
+    font-family: var(--font-body); font-weight: 600; font-size: 17px;
+    padding: 16px 36px; border-radius: 100px; text-decoration: none;
+    text-align: center; border: none; cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    box-shadow: 0 0 32px rgba(124, 58, 237, 0.5);
+    position: relative; overflow: hidden;
+  }
+  .btn-primary::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .btn-primary:hover { background: #6D28D9; transform: translateY(-2px); box-shadow: 0 0 48px rgba(124, 58, 237, 0.7); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-sm { font-size: 14px; padding: 10px 22px; box-shadow: 0 0 16px rgba(124, 58, 237, 0.4); }
+
+  /* BADGE */
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(124, 58, 237, 0.2); border: 1px solid var(--purple-border);
+    color: var(--purple-light); font-size: 12px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 6px 16px; border-radius: 100px;
+  }
+  .badge-green { background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.3); color: var(--green-light); }
+
+  /* HERO */
+  .hero { padding: 72px 0 52px; text-align: center; }
+  .hero .badge { margin-bottom: 28px; }
+  .hero h1 {
+    font-family: var(--font-display); font-size: clamp(34px, 7vw, 64px);
+    font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 22px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--purple-light), #C4B5FD);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .hero .subheadline { font-size: clamp(15px, 2.5vw, 18px); color: var(--gray-400); max-width: 540px; margin: 0 auto 34px; }
+  .hero .subheadline strong { color: var(--white); }
+  .hero-stats { display: flex; align-items: center; justify-content: center; gap: 28px; margin-bottom: 38px; flex-wrap: wrap; }
+  .stat { text-align: center; }
+  .stat .num { font-family: var(--font-display); font-size: 28px; font-weight: 800; color: var(--white); display: block; }
+  .stat .lbl { font-size: 11px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.08em; }
+  .stat-sep { width: 1px; height: 32px; background: var(--purple-border); }
+  .hero-cta { margin-bottom: 14px; }
+  .hero-cta .btn-primary { width: 100%; max-width: 440px; font-size: 18px; padding: 20px 40px; }
+  .guarantee-line { font-size: 13px; color: var(--gray-400); display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+  /* MOCKUP */
+  .mockup-section { padding: 12px 0 52px; display: flex; justify-content: center; }
+  .mockup-wrapper { position: relative; width: 100%; max-width: 460px; margin: 0 auto; }
+  .mockup-glow { position: absolute; inset: -40px; background: radial-gradient(ellipse at center, rgba(124, 58, 237, 0.25) 0%, transparent 70%); pointer-events: none; }
+  .mockup-cover {
+    background: linear-gradient(135deg, #1A0A3E 0%, #2D1465 50%, #1A0A3E 100%);
+    border: 1px solid var(--purple-border); border-radius: 16px;
+    padding: 34px 26px; text-align: center; position: relative;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+  }
+  .mockup-cover .cover-badge { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--purple-light); margin-bottom: 16px; display: block; }
+  .mockup-cover h2 { font-family: var(--font-display); font-size: clamp(20px, 5vw, 36px); font-weight: 800; line-height: 1.1; margin-bottom: 10px; }
+  .mockup-cover h2 span { color: var(--purple-light); }
+  .mockup-cover .cover-sub { font-size: 13px; color: var(--gray-400); margin-bottom: 20px; }
+  .cover-pills { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .pill { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 100px; padding: 5px 12px; font-size: 12px; color: var(--gray-100); }
+  .pill strong { color: var(--green-light); }
+  .mockup-cover .author { font-size: 12px; color: var(--gray-600); margin-top: 16px; }
+
+  /* SECTIONS */
+  section { padding: 64px 0; }
+  .section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--purple-light); font-weight: 600; margin-bottom: 10px; display: block; }
+  .section-title { font-family: var(--font-display); font-size: clamp(24px, 5vw, 40px); font-weight: 800; line-height: 1.1; margin-bottom: 14px; }
+  .section-sub { font-size: 16px; color: var(--gray-400); max-width: 540px; margin-bottom: 40px; }
+
+  /* PROBLEM */
+  .problem-section { background: rgba(22, 10, 46, 0.6); }
+  .problem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 32px; }
+  .problem-card { background: rgba(255, 60, 60, 0.06); border: 1px solid rgba(255, 80, 80, 0.15); border-radius: 12px; padding: 16px; }
+  .problem-card .icon { font-size: 20px; margin-bottom: 8px; display: block; }
+  .problem-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; color: #FCA5A5; }
+  .problem-card p { font-size: 13px; color: var(--gray-400); line-height: 1.5; }
+  .solution-teaser { background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 12px; padding: 16px 20px; display: flex; align-items: flex-start; gap: 14px; }
+  .solution-teaser .icon { font-size: 26px; flex-shrink: 0; margin-top: 2px; }
+  .solution-teaser p { font-size: 15px; color: var(--gray-100); }
+  .solution-teaser strong { color: var(--green-light); }
+
+  /* STEPS */
+  .steps-grid { display: flex; flex-direction: column; gap: 14px; }
+  .step-card { background: var(--purple-card); border: 1px solid var(--purple-border); border-radius: 16px; padding: 20px; display: grid; grid-template-columns: 50px 1fr; gap: 16px; align-items: start; }
+  .step-num { width: 50px; height: 50px; background: linear-gradient(135deg, var(--purple), #4C1D95); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 20px; font-weight: 800; flex-shrink: 0; box-shadow: 0 0 20px rgba(124, 58, 237, 0.4); }
+  .step-content h3 { font-size: 16px; font-weight: 600; margin-bottom: 5px; }
+  .step-content p { font-size: 14px; color: var(--gray-400); margin-bottom: 10px; }
+  .step-time { font-size: 12px; background: rgba(124, 58, 237, 0.15); color: var(--purple-light); padding: 3px 10px; border-radius: 100px; display: inline-block; border: 1px solid var(--purple-border); }
+
+  /* BENEFITS */
+  .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .benefit-card { background: var(--purple-card); border: 1px solid var(--purple-border); border-radius: 14px; padding: 20px 16px; }
+  .benefit-card .icon { font-size: 24px; margin-bottom: 10px; display: block; }
+  .benefit-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 5px; }
+  .benefit-card p { font-size: 13px; color: var(--gray-400); line-height: 1.5; }
+
+  /* TESTIMONIALS */
+  .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+  .testimonial-card { background: var(--purple-card); border: 1px solid var(--purple-border); border-radius: 14px; padding: 18px; }
+  .testimonial-card.featured { border-color: rgba(245,158,11,0.6); background: linear-gradient(135deg, #1C0E00, #1A0A3E); }
+  .stars { color: var(--gold); font-size: 13px; margin-bottom: 10px; }
+  .testimonial-card q { font-size: 14px; color: var(--gray-100); line-height: 1.65; display: block; margin-bottom: 14px; quotes: '\201C' '\201D'; }
+  .testimonial-card q::before { content: open-quote; }
+  .testimonial-card q::after { content: close-quote; }
+  .reviewer { display: flex; align-items: center; gap: 10px; }
+  .avatar { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; }
+  .avatar-purple { background: rgba(124,58,237,0.3); color: var(--purple-light); }
+  .avatar-green { background: rgba(16,185,129,0.2); color: var(--green-light); }
+  .avatar-gold { background: rgba(245,158,11,0.2); color: #FCD34D; }
+  .reviewer-info .name { font-size: 13px; font-weight: 600; }
+  .reviewer-info .meta { font-size: 12px; color: var(--gray-600); }
+
+  /* PRICING */
+  .pricing-card {
+    background: linear-gradient(135deg, #1A0A3E 0%, #2D1465 100%);
+    border: 1px solid var(--purple); border-radius: 24px;
+    padding: 42px 34px; text-align: center;
+    position: relative; overflow: hidden;
+    max-width: 540px; margin: 0 auto;
+  }
+  .pricing-card::before {
+    content: ''; position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+    width: 260px; height: 260px;
+    background: radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .pricing-badge { display: inline-block; background: var(--gold); color: #1a1200; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 14px; border-radius: 100px; margin-bottom: 22px; }
+  .price-crossed { font-size: 16px; color: var(--gray-600); text-decoration: line-through; margin-bottom: 4px; }
+  .price-next-label { font-size: 12px; color: rgba(245,158,11,0.85); margin-bottom: 4px; }
+  .price-countdown-inline {
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+    margin-bottom: 18px;
+  }
+  .mini-block {
+    background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.35);
+    border-radius: 4px; padding: 2px 7px;
+    font-family: var(--font-display); font-size: 13px; font-weight: 700; color: #FCD34D;
+    min-width: 28px; text-align: center;
+  }
+  .mini-sep { color: #FCD34D; font-weight: 700; font-size: 13px; }
+  .price-main-row { margin-bottom: 6px; }
+  .price-currency { font-size: 18px; vertical-align: top; margin-top: 14px; display: inline-block; color: var(--gray-400); font-family: var(--font-body); }
+  .price-main { font-family: var(--font-display); font-size: clamp(48px, 12vw, 74px); font-weight: 800; line-height: 1; }
+  .price-sub { font-size: 14px; color: var(--gray-400); margin-bottom: 28px; }
+  .checklist { list-style: none; text-align: left; margin-bottom: 30px; display: flex; flex-direction: column; gap: 10px; }
+  .checklist li { font-size: 14px; color: var(--gray-100); display: flex; align-items: flex-start; gap: 10px; }
+  .checklist li .check { width: 18px; height: 18px; background: rgba(16,185,129,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .checklist li .check svg { width: 10px; height: 10px; }
+  .pricing-cta { width: 100%; text-align: center; }
+  .pricing-cta .btn-primary { width: 100%; font-size: 17px; padding: 17px 28px; }
+  .pricing-note { margin-top: 12px; font-size: 13px; color: var(--gray-600); display: flex; align-items: center; justify-content: center; gap: 5px; }
+
+  /* FAQ */
+  .faq-list { display: flex; flex-direction: column; gap: 10px; }
+  .faq-item { background: var(--purple-card); border: 1px solid var(--purple-border); border-radius: 12px; overflow: hidden; }
+  .faq-q { width: 100%; background: none; border: none; text-align: left; padding: 15px 18px; font-family: var(--font-body); font-size: 14px; font-weight: 600; color: var(--white); cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; transition: color 0.15s; }
+  .faq-q:hover { color: var(--purple-light); }
+  .faq-q svg { flex-shrink: 0; transition: transform 0.25s; }
+  .faq-q[aria-expanded="true"] svg { transform: rotate(45deg); }
+  .faq-a { font-size: 14px; color: var(--gray-400); line-height: 1.7; padding: 0 18px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; }
+  .faq-a.open { max-height: 300px; padding: 0 18px 15px; }
+
+  /* AUTHOR */
+  .author-section { background: var(--purple-card); border-top: 1px solid var(--purple-border); border-bottom: 1px solid var(--purple-border); }
+  .author-inner { display: grid; grid-template-columns: auto 1fr; gap: 22px; align-items: start; }
+  .author-avatar { width: 72px; height: 72px; background: linear-gradient(135deg, var(--purple), #4C1D95); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 24px; font-weight: 800; flex-shrink: 0; box-shadow: 0 0 24px rgba(124,58,237,0.4); }
+  .author-name { font-size: 18px; font-weight: 700; margin-bottom: 3px; }
+  .author-title { font-size: 12px; color: var(--purple-light); margin-bottom: 10px; }
+  .author-bio { font-size: 14px; color: var(--gray-400); line-height: 1.7; }
+
+  /* FINAL CTA */
+  .final-cta { text-align: center; padding: 84px 0; }
+  .final-cta h2 { font-family: var(--font-display); font-size: clamp(26px, 6vw, 48px); font-weight: 800; line-height: 1.1; margin-bottom: 12px; }
+  .final-cta h2 em { font-style: normal; color: var(--purple-light); }
+  .final-cta p { font-size: 16px; color: var(--gray-400); margin-bottom: 30px; }
+  .final-cta .btn-primary { font-size: 18px; padding: 20px 44px; }
+
+  .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--purple-border), transparent); }
+
+  @keyframes pulse-ring { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(1.35); opacity: 0; } }
+  .pulse-wrapper { position: relative; display: inline-block; }
+  .pulse-wrapper::before, .pulse-wrapper::after { content: ''; position: absolute; inset: -6px; border-radius: 100px; border: 2px solid var(--purple); animation: pulse-ring 1.8s ease-out infinite; }
+  .pulse-wrapper::after { animation-delay: 0.9s; }
+
+  footer { border-top: 1px solid var(--purple-border); padding: 26px 0; text-align: center; font-size: 13px; color: var(--gray-600); }
+  footer a { color: var(--purple-light); text-decoration: none; }
+
+  @media (max-width: 540px) {
+    .step-card { grid-template-columns: 1fr; }
+    .author-inner { grid-template-columns: 1fr; }
+    .hero-stats { gap: 16px; }
+    .pricing-card { padding: 30px 18px; }
+    .sb-info { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COUNTDOWN TOP BANNER -->
+<div class="countdown-banner">
+  <div class="cb-inner">
+    <span class="cb-text">⚡ <strong>Prix lancement 3 498 FCFA</strong> — Monte à 5 000 FCFA dans</span>
+    <div class="countdown-timer">
+      <div class="timer-block" id="topH">00</div>
+      <span class="timer-sep">:</span>
+      <div class="timer-block" id="topM">00</div>
+      <span class="timer-sep">:</span>
+      <div class="timer-block" id="topS">00</div>
+    </div>
+  </div>
+</div>
+
+<!-- STICKY BAR -->
+<div class="sticky-bar" id="stickyBar">
+  <div class="sb-info">
+    <span class="sb-price"><strong>Guide Shopify × Claude AI</strong> — 3 498 FCFA</span>
+    <span class="sb-countdown">⏱ <span id="barTimer">--:--:--</span></span>
+  </div>
+  <a href="https://dgital-e.shop/guide-shopify-claudeai/checkout" class="btn-primary btn-sm">Je veux le guide →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="badge">✦ Guide Complet · Par Waris</div>
+    <h1>Je t'apprends à créer<br>ta Boutique Shopify<br><em>en 1 Heure</em></h1>
+    <p class="subheadline">
+      Sans compétences. Sans agence. <strong>Avec Claude AI.</strong><br>
+      Je te donne exactement le process que j'utilise moi-même — condensé en 4 étapes claires avec les instructions (prompts) prêtes à utiliser.
+    </p>
+    <div class="hero-stats">
+      <div class="stat"><span class="num">4</span><span class="lbl">Étapes claires</span></div>
+      <div class="stat-sep"></div>
+      <div class="stat"><span class="num">0</span><span class="lbl">Compétence technique</span></div>
+      <div class="stat-sep"></div>
+      <div class="stat"><span class="num">~1h</span><span class="lbl">Par boutique</span></div>
+    </div>
+    <div class="hero-cta">
+      <div class="pulse-wrapper">
+        <a href="https://dgital-e.shop/guide-shopify-claudeai/checkout" class="btn-primary">
+          Obtenir le Guide — 3 498 FCFA →
+        </a>
+      </div>
+    </div>
+    <p class="guarantee-line" style="margin-top: 14px;">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#10B981" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+      Accès immédiat · PDF + Instructions (prompts) prêtes · Satisfait ou remboursé
+    </p>
+  </div>
+</section>
+
+<!-- MOCKUP -->
+<div class="mockup-section">
+  <div class="container">
+    <div class="mockup-wrapper">
+      <div class="mockup-glow"></div>
+      <div class="mockup-cover">
+        <span class="cover-badge">✦ Guide Complet · Par Waris</span>
+        <h2>Crée ta Boutique<br>Shopify <span>avec Claude AI</span></h2>
+        <p class="cover-sub">Le guide pas à pas pour lancer une boutique professionnelle, sans compétence technique.</p>
+        <div class="cover-pills">
+          <div class="pill"><strong>4</strong> Étapes</div>
+          <div class="pill"><strong>0</strong> Compétence technique</div>
+          <div class="pill"><strong>~1h</strong> Par boutique</div>
+        </div>
+        <p class="author">Par Waris · @warisadelani</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PROBLÈME -->
+<section class="problem-section">
+  <div class="container">
+    <span class="section-label">Le problème</span>
+    <h2 class="section-title">Je connais ton blocage.<br>Je l'ai vécu aussi.</h2>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <span class="icon">💸</span>
+        <h3>Les agences coûtent trop cher</h3>
+        <p>Jusqu'à 150 000 FCFA pour une boutique Shopify basique. Inacceptable pour démarrer.</p>
+      </div>
+      <div class="problem-card">
+        <span class="icon">😵</span>
+        <h3>Tu n'as pas de compétences techniques</h3>
+        <p>La plupart des gens s'y perdent la première fois. C'est normal — personne ne t'a appris à faire ça.</p>
+      </div>
+      <div class="problem-card">
+        <span class="icon">⏳</span>
+        <h3>Les tutos durent 4 heures</h3>
+        <p>Et à la fin, ta boutique ressemble à rien. Tu as perdu ta journée.</p>
+      </div>
+      <div class="problem-card">
+        <span class="icon">🤯</span>
+        <h3>Trop d'options, zéro résultat</h3>
+        <p>Shopify, WooCommerce, YouCan... Tu testes tout sans finir quoi que ce soit.</p>
+      </div>
+    </div>
+    <div class="solution-teaser">
+      <span class="icon">✅</span>
+      <p>C'est pour ça que j'ai créé ce guide. <strong>4 étapes simples</strong>, des <strong>instructions (prompts) prêtes à utiliser</strong>. Ta boutique est en ligne <strong>en moins d'une heure</strong>. Je te montre exactement comment je fais.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- LES 4 ÉTAPES -->
+<section>
+  <div class="container">
+    <span class="section-label">Ma méthode</span>
+    <h2 class="section-title">Voilà comment je fais.<br>En 4 étapes. Dans l'ordre.</h2>
+    <p class="section-sub">J'ai condensé tout mon process dans ce guide. Chaque étape a son instruction (prompt) prête. Tu n'inventes rien, tu l'utilises directement.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Tu prépares Claude</h3>
+          <p>Je t'explique exactement comment configurer Claude pour qu'il comprenne ce que tu veux. 5 minutes, zéro technique.</p>
+          <span class="step-time">⏱ 5 min</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Tu valides avant de lancer</h3>
+          <p>Avant de générer quoi que ce soit, tu vois exactement à quoi ta boutique va ressembler. Tu changes ce qui ne te plaît pas — sans risque.</p>
+          <span class="step-time">⏱ 20 min</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Ta boutique est générée</h3>
+          <p>Claude te livre ta boutique complète, prête à installer. Tu l'uploades dans Shopify en quelques clics. C'est en ligne.</p>
+          <span class="step-time">⏱ 20 min</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>Tu règles les derniers détails</h3>
+          <p>Je t'accompagne pour que tout soit parfait. Les problèmes les plus courants ? J'ai déjà les solutions dans le guide.</p>
+          <span class="step-time">⏱ 10 min</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CE QUE TU REÇOIS -->
+<section>
+  <div class="container">
+    <span class="section-label">Ce que tu reçois</span>
+    <h2 class="section-title">Tout ce qu'il te faut.<br>Rien de superflu.</h2>
+    <p class="section-sub">8 pages ultra-condensées. J'ai coupé tout ce qui ne t'aide pas à avancer. Que de l'essentiel.</p>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <span class="icon">📋</span>
+        <h3>4 instructions (prompts) prêtes</h3>
+        <p>Une instruction par étape. Je rédige à ta place — tu l'utilises directement dans Claude.</p>
+      </div>
+      <div class="benefit-card">
+        <span class="icon">🎨</span>
+        <h3>Instructions de personnalisation (prompts)</h3>
+        <p>Couleurs, textes, sections. Je t'explique comment ajuster chaque détail sans refaire depuis zéro.</p>
+      </div>
+      <div class="benefit-card">
+        <span class="icon">🔧</span>
+        <h3>Instructions de correction (prompts)</h3>
+        <p>Les 4 bugs que mes clients rencontrent le plus — avec leur solution exacte que j'utilise moi-même.</p>
+      </div>
+      <div class="benefit-card">
+        <span class="icon">📦</span>
+        <h3>Méthode ZIP → Shopify</h3>
+        <p>Comment uploader ta boutique directement. Zéro plugin, zéro abonnement supplémentaire.</p>
+      </div>
+      <div class="benefit-card">
+        <span class="icon">📱</span>
+        <h3>Résultat optimisé mobile</h3>
+        <p>La boutique est responsive. Tes clients sur téléphone voient quelque chose de propre — en Afrique c'est 90% de ton trafic.</p>
+      </div>
+      <div class="benefit-card">
+        <span class="icon">🚀</span>
+        <h3>Accès immédiat</h3>
+        <p>Tu télécharges le PDF tout de suite après paiement. Tu peux commencer dans l'heure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TESTIMONIALS -->
+<section>
+  <div class="container">
+    <span class="section-label">Ils l'ont testé</span>
+    <h2 class="section-title">Ce que mes clients disent.</h2>
+    <p class="section-sub" style="margin-bottom: 24px;">Des entrepreneurs comme toi, en Afrique francophone.</p>
+    <div class="testimonials-grid">
+      <div class="testimonial-card featured">
+        <div class="stars">★★★★★</div>
+        <q>J'ai créé ma 1ère boutique pour moi, puis une 2ème pour un client à 30 000 FCFA. Ce guide s'est remboursé 10 fois en 2 semaines.</q>
+        <div class="reviewer">
+          <div class="avatar avatar-gold">F</div>
+          <div class="reviewer-info">
+            <p class="name">Fatou B.</p>
+            <p class="meta">Freelance e-commerce · Bamako</p>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <q>J'ai suivi exactement les étapes et ma boutique était en ligne en 50 minutes. Je n'y croyais pas.</q>
+        <div class="reviewer">
+          <div class="avatar avatar-green">MD</div>
+          <div class="reviewer-info">
+            <p class="name">Moussa D.</p>
+            <p class="meta">Abidjan, Côte d'Ivoire</p>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <q>J'avais essayé 3 fois de créer ma boutique Shopify. Avec ce guide, à la première tentative c'était bon. Les instructions sont claires et ça marche vraiment.</q>
+        <div class="reviewer">
+          <div class="avatar avatar-purple">AM</div>
+          <div class="reviewer-info">
+            <p class="name">Aïssatou M.</p>
+            <p class="meta">Dakar, Sénégal</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <div class="pricing-card">
+      <div class="pricing-badge">🔥 Prix Lancement</div>
+      <p class="price-crossed">5 000 FCFA</p>
+      <p class="price-next-label">⏱ Prix actuel — monte à 5 000 FCFA dans :</p>
+      <div class="price-countdown-inline">
+        <div class="mini-block" id="pcH">00</div>
+        <span class="mini-sep">:</span>
+        <div class="mini-block" id="pcM">00</div>
+        <span class="mini-sep">:</span>
+        <div class="mini-block" id="pcS">00</div>
+      </div>
+      <div class="price-main-row">
+        <span class="price-currency">FCFA </span>
+        <span class="price-main">3 498</span>
+      </div>
+      <p class="price-sub">Accès instantané · PDF complet + toutes les instructions (prompts)</p>
+      <ul class="checklist">
+        <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="2,6 5,9 10,3"/></svg></span>Guide PDF complet — 8 pages, zéro remplissage</li>
+        <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="2,6 5,9 10,3"/></svg></span>4 instructions (prompts) prêtes à utiliser — 1 par étape</li>
+        <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="2,6 5,9 10,3"/></svg></span>Instructions de personnalisation (prompts) — couleurs, textes, sections</li>
+        <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="2,6 5,9 10,3"/></svg></span>Instructions de correction (prompts) pour les 4 bugs courants</li>
+        <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="2,6 5,9 10,3"/></svg></span>Compatible Claude gratuit + Claude Pro</li>
+        <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="2,6 5,9 10,3"/></svg></span>Fonctionne pour n'importe quel produit, n'importe quel marché</li>
+      </ul>
+      <div class="pricing-cta">
+        <a href="https://dgital-e.shop/guide-shopify-claudeai/checkout" class="btn-primary">
+          Je veux le Guide — 3 498 FCFA →
+        </a>
+      </div>
+      <p class="pricing-note">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#6B5E8A" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        Paiement sécurisé · Accès immédiat après paiement
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FAQ -->
+<section>
+  <div class="container">
+    <span class="section-label">Questions fréquentes</span>
+    <h2 class="section-title" style="margin-bottom: 28px;">Tes questions.<br>Mes réponses directes.</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          J'ai la version gratuite de Claude. Ça marche quand même ?
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq-a">Oui, ça marche avec la version gratuite. Je recommande Claude Pro pour les meilleurs résultats — il gère mieux les fichiers ZIP — mais ce n'est pas obligatoire pour commencer.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          Et si Claude fait des erreurs dans ma boutique ?
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq-a">J'ai prévu ça dans l'étape 4. Je te donne les instructions (prompts) pour corriger les 4 bugs les plus courants : couleurs qui ne changent pas dans le customizer, design cassé sur mobile, bouton "Ajouter au panier" qui ne marche pas, images qui ne s'affichent pas. Ma méthode : capture d'écran → Claude → fichier corrigé.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          Est-ce qu'il me faut déjà un compte Shopify ?
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq-a">Oui, il te faut un accès à l'admin Shopify. L'essai gratuit de 3 jours suffit pour commencer. Si tu n'en as pas encore, tu peux créer ton compte sur shopify.com en 5 minutes.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          Pour quels types de produits ça fonctionne ?
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq-a">N'importe quel produit physique — vêtements, cosmétiques, accessoires, électronique, produits bébé... Tu remplis ton nom de produit, ta description, ton prix et ta cible dans l'instruction. La boutique s'adapte automatiquement.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          Comment je reçois le guide après paiement ?
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq-a">Accès immédiat — tu télécharges le PDF directement depuis la page de confirmation. Un problème ? Envoie-moi un message sur WhatsApp : +225 01 00 50 20 80. Je réponds.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- AUTHOR -->
+<section class="author-section">
+  <div class="container">
+    <span class="section-label">Qui je suis</span>
+    <div class="author-inner" style="margin-top: 20px;">
+      <div class="author-avatar">W</div>
+      <div>
+        <p class="author-name">Waris</p>
+        <p class="author-title">E-commerce Afrique · @warisadelani · TikTok / WhatsApp</p>
+        <p class="author-bio">Au départ, je créais des boutiques Shopify pour des clients en freelance. Aujourd'hui je suis e-commerçant à part entière, spécialisé dans les stratégies de conversion pour boutique en ligne. Je travaille aussi sur de vraies solutions à venir pour contribuer au développement du e-commerce africain.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="container">
+    <div class="badge badge-green" style="margin-bottom: 20px;">✓ Accès immédiat</div>
+    <h2>Ta boutique.<br><em>En ligne aujourd'hui.</em></h2>
+    <p>3 498 FCFA. Une heure de ton temps. Et tu vends.<br>Le prix monte à 5 000 FCFA bientôt — prends-le maintenant.</p>
+    <div class="pulse-wrapper">
+      <a href="https://dgital-e.shop/guide-shopify-claudeai/checkout" class="btn-primary">
+        Je veux le Guide Maintenant →
+      </a>
+    </div>
+    <p class="guarantee-line" style="margin-top: 16px; justify-content: center;">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#10B981" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+      Satisfait ou remboursé — WhatsApp +225 01 00 50 20 80
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2024 Waris · <a href="https://www.tiktok.com/@warisadelani" target="_blank">@warisadelani</a> · WhatsApp +225 01 00 50 20 80</p>
+    <p style="margin-top: 5px;">Guide Shopify × Claude AI · Crée. Lance. Développe.</p>
+  </div>
+</footer>
+
+<script>
+// TIMER 48H — se renouvelle automatiquement à chaque expiration
+var KEY = 'waris_guide_dl_v2';
+var DURATION = 48 * 60 * 60 * 1000;
+
+function getDeadline() {
+  try {
+    var stored = localStorage.getItem(KEY);
+    if (stored) {
+      var d = parseInt(stored, 10);
+      if (d > Date.now()) return d;
+    }
+  } catch(e) {}
+  var nd = Date.now() + DURATION;
+  try { localStorage.setItem(KEY, nd.toString()); } catch(e) {}
+  return nd;
+}
+
+var deadline = getDeadline();
+
+function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+function tick() {
+  var remaining = deadline - Date.now();
+  if (remaining <= 0) {
+    deadline = Date.now() + DURATION;
+    try { localStorage.setItem(KEY, deadline.toString()); } catch(e) {}
+    remaining = DURATION;
+  }
+  var totalSec = Math.floor(remaining / 1000);
+  var h = Math.floor(totalSec / 3600);
+  var m = Math.floor((totalSec % 3600) / 60);
+  var s = totalSec % 60;
+  var hs = pad(h), ms = pad(m), ss = pad(s);
+  var topH = document.getElementById('topH');
+  var topM = document.getElementById('topM');
+  var topS = document.getElementById('topS');
+  if (topH) topH.textContent = hs;
+  if (topM) topM.textContent = ms;
+  if (topS) topS.textContent = ss;
+  var pcH = document.getElementById('pcH');
+  var pcM = document.getElementById('pcM');
+  var pcS = document.getElementById('pcS');
+  if (pcH) pcH.textContent = hs;
+  if (pcM) pcM.textContent = ms;
+  if (pcS) pcS.textContent = ss;
+  var barTimer = document.getElementById('barTimer');
+  if (barTimer) barTimer.textContent = hs + ':' + ms + ':' + ss;
+}
+tick();
+setInterval(tick, 1000);
+
+// STICKY BAR
+var bar = document.getElementById('stickyBar');
+var shown = false;
+window.addEventListener('scroll', function() {
+  if (window.scrollY > 400 && !shown) { bar.classList.add('visible'); shown = true; }
+  else if (window.scrollY <= 200 && shown) { bar.classList.remove('visible'); shown = false; }
+}, { passive: true });
+
+// FAQ ACCORDION
+document.querySelectorAll('.faq-q').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var answer = btn.nextElementSibling;
+    var isOpen = answer.classList.contains('open');
+    document.querySelectorAll('.faq-a').forEach(function(a) { a.classList.remove('open'); });
+    document.querySelectorAll('.faq-q').forEach(function(b) { b.setAttribute('aria-expanded', 'false'); });
+    if (!isOpen) { answer.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
+  });
+});
+</script>
+</body>
+</html>
