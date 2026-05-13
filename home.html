@@ -267,7 +267,6 @@
 
   footer { border-top: 1px solid var(--purple-border); padding: 26px 0; text-align: center; font-size: 13px; color: var(--gray-600); }
   footer a { color: var(--purple-light); text-decoration: none; }
-  #chariow-widget-hidden { position: fixed; left: -9999px; top: -9999px; }
 
   @media (max-width: 540px) {
     .step-card { grid-template-columns: 1fr; }
@@ -279,19 +278,6 @@
 </style>
 </head>
 <body>
-
-<!-- CHARIOW WIDGET CACHÉ — déclenché par tous les boutons CTA -->
-<div id="chariow-widget-hidden">
-  <div id="chariow-widget" data-product-id="prd_toglda"
-      data-store-domain="dgital-e.shop"
-      data-style="tap"
-      data-border-style="rounded"
-      data-cta-width="xs"
-      data-background-color="#FFFFFF"
-      data-cta-animation="none"
-      data-locale="en"
-      data-primary-color="#b747eb"></div>
-</div>
 
 <!-- COUNTDOWN TOP BANNER -->
 <div class="countdown-banner">
@@ -313,7 +299,7 @@
     <span class="sb-price"><strong>Guide Shopify × Claude AI</strong> — 3 498 FCFA</span>
     <span class="sb-countdown">⏱ <span id="barTimer">--:--:--</span></span>
   </div>
-  <a href="#" class="btn-primary btn-sm cta-trigger">Je veux le guide →</a>
+  <a href="https://dgital-e.shop/guide-shopify-claudeai/checkout" class="btn-primary btn-sm">Je veux le guide →</a>
 </div>
 
 <!-- HERO -->
@@ -334,7 +320,7 @@
     </div>
     <div class="hero-cta">
       <div class="pulse-wrapper">
-        <a href="#" class="btn-primary cta-trigger">
+        <a href="https://dgital-e.shop/guide-shopify-claudeai/checkout" class="btn-primary">
           Obtenir le Guide — 3 498 FCFA →
         </a>
       </div>
@@ -566,9 +552,15 @@
         <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="2,6 5,9 10,3"/></svg></span>Fonctionne pour n'importe quel produit, n'importe quel marché</li>
       </ul>
       <div class="pricing-cta">
-        <a href="#" class="btn-primary cta-trigger">
-          Je veux le Guide — 3 498 FCFA →
-        </a>
+        <div id="chariow-widget" data-product-id="prd_toglda"
+            data-store-domain="dgital-e.shop"
+            data-style="tap"
+            data-border-style="rounded"
+            data-cta-width="xs"
+            data-background-color="#FFFFFF"
+            data-cta-animation="none"
+            data-locale="en"
+            data-primary-color="#b747eb"></div>
       </div>
       <p class="pricing-note">
         <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#6B5E8A" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
@@ -649,7 +641,7 @@
     <h2>Ta boutique.<br><em>En ligne aujourd'hui.</em></h2>
     <p>3 498 FCFA. Une heure de ton temps. Et tu vends.<br>Le prix monte à 5 000 FCFA bientôt — prends-le maintenant.</p>
     <div class="pulse-wrapper">
-      <a href="#" class="btn-primary cta-trigger">
+      <a href="https://dgital-e.shop/guide-shopify-claudeai/checkout" class="btn-primary">
         Je veux le Guide Maintenant →
       </a>
     </div>
@@ -726,22 +718,6 @@ window.addEventListener('scroll', function() {
   if (window.scrollY > 400 && !shown) { bar.classList.add('visible'); shown = true; }
   else if (window.scrollY <= 200 && shown) { bar.classList.remove('visible'); shown = false; }
 }, { passive: true });
-
-// CHARIOW TRIGGER — tous les boutons CTA déclenchent le widget
-document.querySelectorAll('.cta-trigger').forEach(function(btn) {
-  btn.addEventListener('click', function(e) {
-    e.preventDefault();
-    var chariowBtn = document.querySelector('#chariow-widget button') ||
-                     document.querySelector('#chariow-widget a') ||
-                     document.querySelector('#chariow-widget [role="button"]');
-    if (chariowBtn) {
-      chariowBtn.click();
-    } else {
-      // Fallback direct si le widget n'est pas encore chargé
-      window.location.href = 'https://dgital-e.shop/guide-shopify-claudeai/checkout';
-    }
-  });
-});
 
 // FAQ ACCORDION
 document.querySelectorAll('.faq-q').forEach(function(btn) {
