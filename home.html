@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { overflow-x: hidden; max-width: 100%; }
   :root {
     --purple: #7C3AED;
     --purple-light: #A78BFA;
@@ -120,7 +121,7 @@
   .stat .num { font-family: var(--font-display); font-size: 28px; font-weight: 800; color: var(--white); display: block; }
   .stat .lbl { font-size: 11px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.08em; }
   .stat-sep { width: 1px; height: 32px; background: var(--purple-border); }
-  .hero-cta { margin-bottom: 14px; }
+  .hero-cta { margin-bottom: 14px; width: 100%; display: flex; justify-content: center; }
   .hero-cta .btn-primary { width: 100%; max-width: 440px; font-size: 18px; padding: 20px 40px; }
   .guarantee-line { font-size: 13px; color: var(--gray-400); display: flex; align-items: center; justify-content: center; gap: 6px; }
 
@@ -260,7 +261,7 @@
   .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--purple-border), transparent); }
 
   @keyframes pulse-ring { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(1.35); opacity: 0; } }
-  .pulse-wrapper { position: relative; display: inline-block; }
+  .pulse-wrapper { position: relative; display: inline-block; max-width: 100%; }
   .pulse-wrapper::before, .pulse-wrapper::after { content: ''; position: absolute; inset: -6px; border-radius: 100px; border: 2px solid var(--purple); animation: pulse-ring 1.8s ease-out infinite; pointer-events: none; }
   .pulse-wrapper::after { animation-delay: 0.9s; }
 
