@@ -6,9 +6,6 @@
 <title>Crée ta Boutique Shopify avec Claude AI — Guide de Waris</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
-<!-- Chariow -->
-<link rel="stylesheet" href="https://js.chariowcdn.com/v1/widget.min.css">
-<script src="https://js.chariowcdn.com/v1/widget.min.js" async></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -331,10 +328,6 @@
       <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#10B981" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
       Accès immédiat · PDF + Instructions (prompts) prêtes · Satisfait ou remboursé
     </p>
-    <!-- Chariow — Hero -->
-    <div style="display:flex; justify-content:center; margin-top: 18px;">
-      <div id="chariow-widget-hero" data-product-id="prd_toglda" data-store-domain="dgital-e.shop" data-style="tap" data-border-style="rounded" data-cta-width="xs" data-background-color="#FFFFFF" data-cta-animation="none" data-locale="en" data-primary-color="#b747eb"></div>
-    </div>
   </div>
 </section>
 
@@ -558,18 +551,21 @@
         <li><span class="check"><svg viewBox="0 0 12 12" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="2,6 5,9 10,3"/></svg></span>Fonctionne pour n'importe quel produit, n'importe quel marché</li>
       </ul>
       <div class="pricing-cta">
-        <a href="https://dgital-e.shop/guide-shopify-claudeai/checkout" class="btn-primary">
-          Je veux le Guide — 3 498 FCFA →
-        </a>
+        <!-- Chariow Widget -->
+        <div id="chariow-widget" data-product-id="prd_toglda"
+            data-store-domain="dgital-e.shop"
+            data-style="tap"
+            data-border-style="rounded"
+            data-cta-width="xs"
+            data-background-color="#FFFFFF"
+            data-cta-animation="none"
+            data-locale="en"
+            data-primary-color="#b747eb"></div>
       </div>
       <p class="pricing-note">
         <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#6B5E8A" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
         Paiement sécurisé · Accès immédiat après paiement
       </p>
-      <!-- Chariow — Pricing -->
-      <div style="display:flex; justify-content:center; margin-top: 18px;">
-        <div id="chariow-widget-pricing" data-product-id="prd_toglda" data-store-domain="dgital-e.shop" data-style="tap" data-border-style="rounded" data-cta-width="xs" data-background-color="#FFFFFF" data-cta-animation="none" data-locale="en" data-primary-color="#b747eb"></div>
-      </div>
     </div>
   </div>
 </section>
@@ -653,10 +649,6 @@
       <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#10B981" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
       Satisfait ou remboursé — WhatsApp +225 01 00 50 20 80
     </p>
-    <!-- Chariow — Final CTA -->
-    <div style="display:flex; justify-content:center; margin-top: 20px;">
-      <div id="chariow-widget-final" data-product-id="prd_toglda" data-store-domain="dgital-e.shop" data-style="tap" data-border-style="rounded" data-cta-width="xs" data-background-color="#FFFFFF" data-cta-animation="none" data-locale="en" data-primary-color="#b747eb"></div>
-    </div>
   </div>
 </section>
 
@@ -737,6 +729,21 @@ document.querySelectorAll('.faq-q').forEach(function(btn) {
     if (!isOpen) { answer.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
   });
 });
+</script>
+
+<!-- Chariow Script -->
+<script>
+(function() {
+  var script = document.createElement('script');
+  script.src = 'https://js.chariowcdn.com/v1/widget.min.js';
+  script.async = true;
+  document.head.appendChild(script);
+
+  var link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'https://js.chariowcdn.com/v1/widget.min.css';
+  document.head.appendChild(link);
+})();
 </script>
 </body>
 </html>
